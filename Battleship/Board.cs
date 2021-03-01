@@ -8,13 +8,13 @@ namespace Battleship
 {
     class Board
     {       
-        private List<int> ships;
+        private List<Ship> ships;
         int ships_count;
         private short[,] square_states;//logical states of squares: -1 - already checked by the opponent, 0 - empty, greater then 0 - occupied by a ship with id one less than the state 
         public Board(int size, List<int> ships)//create ship of given size and number of ships
         {
             square_states = new short[size, size];
-            this.ships = ships;
+            this.ships = new List<Ship>(ships.Count);
             this.ships_count = ships.Count;
             Random rm = new Random((int)DateTime.Now.Ticks);            
             //the code doesn't detect that more ships cannot be placed since it's beyond scope of the question 
@@ -22,6 +22,7 @@ namespace Battleship
             for(int i=0;i<ships.Count;i++)
             {
                 bool correct_position = false;
+                this.ships.Add(new Ship(ships[i]));
                 int direction,x,y;
                 do
                 {
@@ -66,6 +67,7 @@ namespace Battleship
                     for (int k = x; k < x + ships[i]; k++)
                     {
                         square_states[k, y] = (short)(i + 1);
+                        this.ships[i].add_square(k, y);
                     }
                 }
                 else
@@ -73,6 +75,7 @@ namespace Battleship
                     for (int k = y; k < y + ships[i]; k++)
                     {
                         square_states[x, k] = (short)(i + 1);
+                        this.ships[i].add_square(x,k);
                     }
                 }
             }
@@ -83,14 +86,13 @@ namespace Battleship
             int result = square_states[x, y];
             if(square_states[x,y]>0)//check if a ship was hit
             {
-                result = 1;
-                ships[square_states[x, y] - 1]--;
-                if(ships[square_states[x, y] - 1]==0)//check if the ship was sunk
+                result = 1;                
+                if(this.ships[square_states[x, y]-1].shoot())//check if the ship was sunk
                 {
-                    result++;
                     ships_count--;
+                    result++;                    
                     if(ships_count==0)//check if there are ships remaining
-                    {
+                    {                        
                         result++;
                     }
                 }
@@ -98,5 +100,6 @@ namespace Battleship
             square_states[x, y] = -1;
             return result;
         }
+        public int shoot
     }
 }

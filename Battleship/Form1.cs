@@ -31,6 +31,7 @@ namespace Battleship
             this.UseVisualStyleBackColor = true;            
             this.Name = string.Format("{0}x{1}",x,y);            
             this.TabIndex = 0;
+            this.BackgroundImage = Properties.Resources.sea;
         }
     }
     public partial class Form1 : Form
@@ -50,6 +51,9 @@ namespace Battleship
         private void setup_objects(int size, List<int>ships)
         {
             board = new Board(size, ships);
+            miss = Properties.Resources.miss;
+            hit = Properties.Resources.hit;
+            sunk = Properties.Resources.sunk;
             InitializeComponent();
             for (int x = 0; x < 10; x++)
             {
@@ -58,10 +62,6 @@ namespace Battleship
                     this.Controls.Add(new BattleshipButton(x, y, shoot_handler));
                 }
             }
-            empty = Properties.Resources.sea;
-            miss = Properties.Resources.miss;
-            hit = Properties.Resources.hit;
-            sunk = Properties.Resources.sunk;
         }
         public void shoot_handler(object sender, EventArgs e)
         {
@@ -69,8 +69,20 @@ namespace Battleship
             int result = board.shoot(button.getX(), button.getY());
             switch(result)
             {
-                case 0:
+                case -1:
                     
+                    break;
+                case 0:
+
+                    break;
+                case 1:
+
+                    break;
+                case 2:
+
+                    break;
+                case 3:
+
                     break;
             }
         }
