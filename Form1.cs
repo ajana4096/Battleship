@@ -70,26 +70,35 @@ namespace Battleship
             switch(result)
             {
                 case -1:
-                    
+                    ((Label)this.Controls.Find("top_banner",false)[0]).Text = "You already checked here. Are you sure?";
                     break;
                 case 0:
                     button.BackgroundImage = miss;
+                    ((Label)this.Controls.Find("top_banner", false)[0]).Text = "You missed!";
                     break;
                 case 1:
                     button.BackgroundImage = hit;
+                    ((Label)this.Controls.Find("top_banner", false)[0]).Text = "You hit a ship!";
                     break;
                 case 2:
                     List<KeyValuePair<int,int>>sunk_ship = board.get_ship_from_field(button.getX(), button.getY());
-                    foreach(KeyValuePair<int,int>square in sunk_ship)
+                    ((Label)this.Controls.Find("top_banner", false)[0]).Text = "The ship sunk!";
+                    foreach (KeyValuePair<int,int>square in sunk_ship)
                     {
                         ((BattleshipButton)this.Controls.Find(string.Format("{0}x{1}", square.Key, square.Value), false)[0]).BackgroundImage = sunk;
                     }
                     break;
                 case 3:
                     sunk_ship = board.get_ship_from_field(button.getX(), button.getY());
+                    ((Label)this.Controls.Find("top_banner", false)[0]).Text = "You won!";
+                    ((Label)this.Controls.Find("top_banner", false)[0]).BackColor = Color.LightGreen;
                     foreach (KeyValuePair<int, int> square in sunk_ship)
                     {
                         ((BattleshipButton)this.Controls.Find(string.Format("{0}x{1}", square.Key, square.Value), false)[0]).BackgroundImage = sunk;
+                    }
+                    foreach (Control ctrl in this.Controls)
+                    {
+                        ctrl.Enabled = false;
                     }
                     break;
             }
