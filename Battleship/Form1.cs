@@ -61,7 +61,7 @@ namespace Battleship
             empty = Properties.Resources.sea;
             miss = Properties.Resources.miss;
             hit = Properties.Resources.hit;
-            sunk = Properties.Resources.sink;
+            sunk = Properties.Resources.sunk;
         }
         public void shoot_handler(object sender, EventArgs e)
         {
